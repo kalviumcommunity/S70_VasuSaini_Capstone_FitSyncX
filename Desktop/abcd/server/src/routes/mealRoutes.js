@@ -47,3 +47,26 @@ router.post('/', protect, asyncHandler(async (req, res) => {
   res.status(201).json(meal);
 }));
 
+
+// @desc    Update a meal
+// @route   PUT /api/meals/:id
+// @access  Private
+router.put('/:id', protect, asyncHandler(async (req, res) => {
+  const meal = await Meal.findOne({ _id: req.params.id, user: req.user._id });
+
+  if (meal) {
+    meal.name = req.body.name || meal.name;
+    meal.calories = req.body.calories || meal.calories;
+    meal.protein = req.body.protein || meal.protein;
+    meal.carbs = req.body.carbs || meal.carbs;
+    meal.fats = req.body.fats || meal.fats;
+    meal.mealType = req.body.mealType || meal.mealType;
+    meal.date = req.body.date || meal.date;
+
+    const updatedMeal = await meal.save();
+    res.json(updatedMeal);
+  } else {
+    res.status(404);
+    throw new Error('Meal not found');
+  }
+}));

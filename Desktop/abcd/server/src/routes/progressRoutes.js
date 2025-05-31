@@ -45,3 +45,23 @@ router.post('/', protect, asyncHandler(async (req, res) => {
   res.status(201).json(progress);
 }));
 
+// @desc    Update a progress entry
+// @route   PUT /api/progress/:id
+// @access  Private
+router.put('/:id', protect, asyncHandler(async (req, res) => {
+  const progress = await Progress.findOne({ _id: req.params.id, user: req.user._id });
+
+  if (progress) {
+    progress.weight = req.body.weight || progress.weight;
+    progress.bodyFat = req.body.bodyFat || progress.bodyFat;
+    progress.measurements = req.body.measurements || progress.measurements;
+    progress.date = req.body.date || progress.date;
+    progress.notes = req.body.notes || progress.notes;
+
+    const updatedProgress = await progress.save();
+    res.json(updatedProgress);
+  } else {
+    res.status(404);
+    throw new Error('Progress entry not found');
+  }
+}));

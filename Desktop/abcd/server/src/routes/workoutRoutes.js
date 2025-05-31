@@ -47,3 +47,26 @@ router.post('/', protect, asyncHandler(async (req, res) => {
   res.status(201).json(workout);
 }));
 
+// @desc    Update a workout
+// @route   PUT /api/workouts/:id
+// @access  Private
+router.put('/:id', protect, asyncHandler(async (req, res) => {
+  const workout = await Workout.findOne({ _id: req.params.id, user: req.user._id });
+
+  if (workout) {
+    workout.name = req.body.name || workout.name;
+    workout.type = req.body.type || workout.type;
+    workout.duration = req.body.duration || workout.duration;
+    workout.exercises = req.body.exercises || workout.exercises;
+    workout.date = req.body.date || workout.date;
+    workout.caloriesBurned = req.body.caloriesBurned || workout.caloriesBurned;
+    workout.notes = req.body.notes || workout.notes;
+
+    const updatedWorkout = await workout.save();
+    res.json(updatedWorkout);
+  } else {
+    res.status(404);
+    throw new Error('Workout not found');
+  }
+}));
+
