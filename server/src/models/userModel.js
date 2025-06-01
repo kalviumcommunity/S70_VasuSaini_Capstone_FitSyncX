@@ -4,60 +4,57 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import validator from 'validator';
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please add a name'],
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please add a name'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Please add an email'],
+      unique: true,
+      validate: [validator.isEmail, 'Please add a valid email'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please add a password'],
+      minlength: [6, 'Password must be at least 6 characters'],
+      select: false,
+    },
+    height: {
+      type: Number,
+      required: [true, 'Please add your height in cm'],
+    },
+    currentWeight: {
+      type: Number,
+      required: [true, 'Please add your current weight in kg'],
+    },
+    targetWeight: {
+      type: Number,
+      required: [true, 'Please add your target weight in kg'],
+    },
+    activityLevel: {
+      type: String,
+      required: [true, 'Please select your activity level'],
+      enum: ['sedentary', 'light', 'moderate', 'active', 'very active'],
+    },
+    goalType: {
+      type: String,
+      required: [true, 'Please select your goal'],
+      enum: ['lose', 'maintain', 'gain'],
+    },
+    googleId: String,
+    picture: String,
   },
-  email: {
-    type: String,
-    required: [true, 'Please add an email'],
-    unique: true,
-    validate: [validator.isEmail, 'Please add a valid email'],
-  },
-  password: {
-    type: String,
-    required: [function() { return !this.googleId; }, 'Please add a password'],
-    minlength: 6,
-    select: false,
-  },
-  googleId: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
-  picture: {
-    type: String,
-  },
-  height: {
-    type: Number,
-    required: [true, 'Please add your height in cm'],
-  },
-  currentWeight: {
-    type: Number,
-    required: [true, 'Please add your current weight in kg'],
-  },
-  targetWeight: {
-    type: Number,
-    required: [true, 'Please add your target weight in kg'],
-  },
-  activityLevel: {
-    type: String,
-    enum: ['sedentary', 'light', 'moderate', 'very', 'extra'],
-    default: 'moderate',
-  },
-  goalType: {
-    type: String,
-    enum: ['lose', 'maintain', 'gain'],
-    default: 'maintain',
-  },
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Encrypt password using bcrypt
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password') || !this.password) {
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
     next();
   }
 
@@ -66,8 +63,7 @@ userSchema.pre('save', async function(next) {
 });
 
 // Match user entered password to hashed password in database
-userSchema.methods.matchPassword = async function(enteredPassword) {
-  if (!this.password) return false;
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
