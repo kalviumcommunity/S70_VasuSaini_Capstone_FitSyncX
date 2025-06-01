@@ -34,8 +34,8 @@ const workoutSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: [true, 'Please specify workout type'],
-    enum: ['strength', 'cardio', 'flexibility', 'hiit']
+    required: [true, 'Please select workout type'],
+    enum: ['strength', 'cardio', 'hiit', 'flexibility', 'other']
   },
   duration: {
     type: Number,
@@ -48,7 +48,7 @@ const workoutSchema = new mongoose.Schema({
   },
   caloriesBurned: {
     type: Number,
-    default: 0
+    required: [true, 'Please add calories burned']
   },
   notes: String
 }, {
