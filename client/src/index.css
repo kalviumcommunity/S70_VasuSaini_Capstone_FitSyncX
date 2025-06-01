@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%; /* White background for light mode */
+    --foreground: 240 10% 3.9%; /* Dark grey text for light mode */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+ 
+    --primary: 240 5% 15%; /* Dark Grey / Almost Black */
+    --primary-foreground: 0 0% 98%; /* Light Grey / White text */
+ 
+    --secondary: 240 4% 46%; /* Medium Grey */
+    --secondary-foreground: 0 0% 98%; /* Light Grey / White text */
+ 
+    --muted: 240 5% 90%; /* Light Grey */
+    --muted-foreground: 240 4% 20%; /* Darker Grey text */
+ 
+    --accent: 240 5% 25%; /* Dark Charcoal */
+    --accent-foreground: 0 0% 98%; /* Light Grey / White text */
+ 
+    --destructive: 0 72% 51%; /* Keeping destructive color for errors */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 85%; /* Light grey border */
+    --input: 240 6% 90%; /* Lighter grey input background */
+    --ring: 240 5% 15%; /* Dark Grey / Almost Black for focus rings */
+ 
+    --radius: 0.75rem;
+  }
+ 
+  .dark {
+    --background: 240 10% 3.9%; /* Very Dark Grey / Black background */
+    --foreground: 0 0% 95%; /* Light Grey text */
+ 
+    --card: 240 8% 10%; /* Darker card background */
+    --card-foreground: 0 0% 95%; /* Light Grey text for cards */
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 95%;
+ 
+    --primary: 240 3% 80%; /* Lighter Grey for primary elements in dark mode */
+    --primary-foreground: 240 10% 3.9%; /* Dark text on light grey primary */
+ 
+    --secondary: 240 5% 25%; /* Medium-Dark Grey */
+    --secondary-foreground: 0 0% 95%; /* Light Grey text */
+ 
+    --muted: 240 5% 15%; /* Dark Grey for muted elements */
+    --muted-foreground: 240 4% 65%; /* Medium Grey text */
+ 
+    --accent: 240 3% 70%; /* Lighter Grey for accents in dark mode */
+    --accent-foreground: 240 10% 3.9%; /* Dark text on light grey accent */
+ 
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 95%;
+ 
+    --border: 240 4% 20%; /* Darker border */
+    --input: 240 4% 15%; /* Darker input background */
+    --ring: 240 3% 80%; /* Lighter Grey for focus rings in dark mode */
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+}
+
+.glassmorphism-card {
+  @apply bg-background/30 backdrop-blur-lg border border-border/20 shadow-lg rounded-xl p-6;
+}
+
+.dark .glassmorphism-card {
+  @apply bg-background/30 backdrop-blur-lg border border-border/20 shadow-lg rounded-xl p-6;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+}
