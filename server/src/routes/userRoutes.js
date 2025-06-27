@@ -50,7 +50,7 @@ router.post('/register', async (req, res) => {
 
 // @route   POST /api/users/login
 // @desc    Login user
-router.post('/login', async (req, res) => {
+router.post('/login' , async (req, res) => {
   res.status(501).json({ message: 'Not implemented yet' });
 });
 
